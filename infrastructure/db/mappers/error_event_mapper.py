@@ -15,3 +15,16 @@ class ErrorEventMapper:
             event_metadata=event.metadata,
             created_at=event.created_at,
         )
+
+    @staticmethod
+    def to_entity(model: ErrorEventModel) -> ErrorEvent:
+        return ErrorEvent(
+            id=model.id,
+            project_id=model.project_id,
+            fingerprint=model.fingerprint,
+            severity=model.severity,
+            message=model.message,
+            stack_trace=model.stack_trace,
+            metadata=model.event_metadata,
+            created_at=model.created_at,
+        )
