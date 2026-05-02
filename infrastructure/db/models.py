@@ -17,5 +17,5 @@ class ErrorEventModel(Base):
     severity: Mapped[str] = mapped_column(String(32), nullable=False)
     message: Mapped[str] = mapped_column(String(1024), nullable=False)
     stack_trace: Mapped[str] = mapped_column(String, nullable=False)
-    metadata: Mapped[dict] = mapped_column(JSON, nullable=False, default=dict)
+    event_metadata: Mapped[dict] = mapped_column(JSON, nullable=False, default=dict)
     created_at: Mapped[datetime] = mapped_column(DateTime, nullable=False)

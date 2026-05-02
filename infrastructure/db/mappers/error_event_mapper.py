@@ -12,6 +12,6 @@ class ErrorEventMapper:
             severity=event.severity,
             message=event.message,
             stack_trace=event.stack_trace,
-            metadata=event.metadata,
+            event_metadata=event.metadata,
             created_at=event.created_at,
         )
