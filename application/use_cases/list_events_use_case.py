@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 
 from app.schemas.events import EventItem, ListEventsResponse
 from domain.entities.error_event import ErrorEvent
@@ -9,8 +9,15 @@ class ListEventsUseCase:
     def __init__(self, repository: EventRepository) -> None:
         self.repository = repository
 
-    def execute(self, limit: int) -> ListEventsResponse:
-        events: List[ErrorEvent] = self.repository.list_recent(limit)
+    def execute(
+        self, page: int, page_size: int, project_id: Optional[str] = None
+    ) -> ListEventsResponse:
+        offset = (page - 1) * page_size
+        events: List[ErrorEvent] = self.repository.list_recent(
+            limit=page_size, offset=offset, project_id=project_id
+        )
+        total = self.repository.count(project_id=project_id)
+
         items = [
             EventItem(
                 id=e.id,
@@ -24,4 +31,4 @@ class ListEventsUseCase:
             )
             for e in events
         ]
-        return ListEventsResponse(items=items)
+        return ListEventsResponse(items=items, page=page, page_size=page_size, total=total)

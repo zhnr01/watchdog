@@ -17,3 +17,6 @@ class EventItem(BaseModel):
 
 class ListEventsResponse(BaseModel):
     items: list[EventItem]
+    page: int
+    page_size: int
+    total: int
