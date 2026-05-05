@@ -6,6 +6,7 @@ from alembic import context
 from app.settings import settings
 from infrastructure.db.base import Base
 from infrastructure.db import models  # noqa: F401
+from infrastructure.db import auth_models  # noqa: F401
 
 
 config = context.config
