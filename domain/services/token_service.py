@@ -1,7 +1,8 @@
 from datetime import datetime, timedelta, timezone
 from uuid import UUID
 
-from jose import jwt
+import secrets
+from jose import JWTError, jwt
 
 
 class TokenService:
@@ -18,3 +19,14 @@ class TokenService:
             "exp": int((now + timedelta(minutes=self.access_ttl_minutes)).timestamp()),
         }
         return jwt.encode(payload, self.secret_key, algorithm=self.algorithm)
+    
+
+    def create_refresh_token(self) -> str:
+        return secrets.token_urlsafe(48)
+
+    def decode_access_token(self, token: str) -> UUID | None:
+        try:
+            payload = jwt.decode(token, self.secret_key, algorithms=[self.algorithm])
+            return UUID(payload["sub"])
+        except JWTError:
+            return None

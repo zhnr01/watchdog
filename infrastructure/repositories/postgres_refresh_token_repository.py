@@ -31,3 +31,11 @@ class PostgresRefreshTokenRepository(RefreshTokenRepository):
         ).values(revoked_at="now()")
         self.session.execute(stmt)
         self.session.commit()
+
+    def get_active_by_hash(self, token_hash: str) -> RefreshToken | None:
+        stmt = select(RefreshTokenModel).where(
+            RefreshTokenModel.token_hash == token_hash,
+            RefreshTokenModel.revoked_at.is_(None),
+        )
+        row = self.session.execute(stmt).scalars().first()
+        return RefreshTokenMapper.to_entity(row) if row else None
