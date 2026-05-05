@@ -4,3 +4,5 @@ sqlalchemy
 psycopg[binary]
 pydantic-settings==2.4.0
 alembic==1.13.2
+python-jose[cryptography]
+passlib[argon2]
